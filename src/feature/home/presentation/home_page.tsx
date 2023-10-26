@@ -275,8 +275,7 @@ const HomePage = () => {
 								<IconExcel ></IconExcel>
 							</div>
 						</Row>
-						
-						{/* <BasicTable/> */}
+						<BasicTable/>
 						{/* <CollapsibleTable/> */}
 					</ContResult>
 					: <div></div>
@@ -288,8 +287,6 @@ const HomePage = () => {
 export default HomePage
 
 const Container = styled.div`
-	width: 100vw;
-	height: 100vh;
 	display: flex;
 	align-items: center;
 	flex-direction: column;
@@ -303,7 +300,6 @@ const ContFilter = styled.div`
 	border-radius: 10px;
 	padding: 30px;
 	box-shadow: 0px 3px 6px #00000015;
-	
 `;
 
 const ContResult = styled.div`

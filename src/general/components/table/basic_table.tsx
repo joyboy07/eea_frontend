@@ -18,8 +18,8 @@ function createTitle(name: string) {
 		createTitle('RUC'),
 		createTitle('Nro Estab'),
 		createTitle('Razon Social'),
-		createTitle('Codigo Sector'),
-		createTitle('Codigo Formato'),
+		createTitle('Codigo Sector'), //!ignesesario
+		createTitle('Codigo Formato'), //!ignesesario
 		createTitle('Nro de Establecimientos de la Empresa'),
 		createTitle('Ingresos netos Obtenidos en el Año'),
 		createTitle('Numero de meses Trabajados en el Año'),
@@ -46,8 +46,9 @@ function createTitle(name: string) {
 
 	export default function BasicTable() {
 	return (
-		<TableContainer style={{overflow:'hidden', width:'100%'}} component={Paper}>
-		<Table style={{overflow:'hidden', width:'100%', backgroundColor:'#c11'}} >
+		<Paper sx={{ width: '100%', overflow: 'hidden' }}>
+		<TableContainer >
+		<Table style={{overflow: 'auto'}} >
 			<TableHead style={{backgroundColor: primaryLg}} >
 			<TableRow>
 				{titlesTable.map((row) => (
@@ -73,5 +74,6 @@ function createTitle(name: string) {
 			</TableBody>
 		</Table>
 		</TableContainer>
+		</Paper>
 	);
 }
