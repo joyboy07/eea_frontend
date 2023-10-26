@@ -8,8 +8,8 @@ import levelI from '../interfaces/level_interface';
 import directoryI from '../interfaces/directory_interface';
 import chapterI from '../interfaces/chapter_interface';
 import { Column, Row } from '../../../core/style/general_style_components';
-import CollapsibleTable from './components/table/collapsible_table';
 import BasicTable from '../../../general/components/table/basic_table';
+import ResponsiveAppBar from '../../../app/component/app-bar/app_bar_resposive';
 
 const HomePage = () => {
 
@@ -123,161 +123,160 @@ const HomePage = () => {
 
 	return (
 		<Container>
-			<Con>
-				<Column style={{gap:'20px', marginTop:'40px'}}>
-					<ContFilter>
-						<Row style={{gap:'10px'}}>
-							<FormControl size="small" fullWidth>
-								<InputLabel >Seleccione el año</InputLabel>
+			<ResponsiveAppBar></ResponsiveAppBar>
+			<Column style={{gap:'20px', marginTop:'40px', width:'95%'}}>
+				<ContFilter>
+					<Row style={{gap:'10px'}}>
+						<FormControl size="small" fullWidth>
+							<InputLabel >Seleccione el año</InputLabel>
+							<Select
+								value={year}
+								label="Seleccione la nivel"
+								onChange={handleChangeYear}
+							>
+								{
+									years.map((row: yearI) => (
+										<MenuItem key={row.id} value={row.id}>{row.id}</MenuItem>
+									))
+								}
+							</Select>
+						</FormControl>
+						<FormControl size="small" fullWidth>
+								<InputLabel >Seleccione la nivel</InputLabel>
 								<Select
-									value={year}
+									disabled = { year == ''}
+									value={level}
 									label="Seleccione la nivel"
-									onChange={handleChangeYear}
+									onChange={handleChangeNivel}
 								>
 									{
-										years.map((row: yearI) => (
-											<MenuItem key={row.id} value={row.id}>{row.id}</MenuItem>
-										))
-									}
+										levels.map((row: levelI) => (
+											<MenuItem key={row.id} value={row.id}>{row.nombre}</MenuItem>
+									))}
+								</Select>
+							</FormControl>
+						<FormControl size="small" fullWidth>
+							<InputLabel >Seleccione la directorio</InputLabel>
+							<Select
+								disabled = { level == ''}
+								value={directory}
+								label="Seleccione la directorio"
+								onChange={handleChangeDirectories}
+							>
+								{
+									directories.map((row: directoryI) => (
+										<MenuItem key={row.id} value={row.id}>{row.name}</MenuItem>
+								))}
+							</Select>
+						</FormControl>
+					</Row>
+					<Row style={{gap:'10px'}}>
+						{
+							showSelectSubDirection?
+							<FormControl size="small" fullWidth>
+								<InputLabel >Seleccione la sub directorio</InputLabel>
+								<Select
+									disabled = { directory == ''}
+									value={subDirectory}
+									label="Seleccione la sub directorio"
+									onChange={handleChangeSubDirectories}
+								>
+									{
+										subDirectories.map((row: any) => (
+											<MenuItem key={row.id} value={row.id}>{row.name}</MenuItem>
+									))}
+								</Select>
+							</FormControl>
+							:null
+						}
+						{
+							showTwoSeletor?
+							<FormControl size="small" fullWidth>
+								<InputLabel >Seleccione la Formato </InputLabel>
+								<Select
+									disabled = { subDirectory == ''}
+									value={format}
+									label="Seleccione la Formato"
+									onChange={handleChangeFormat}
+								>
+									{
+										formats.map((row: any) => (
+											<MenuItem key={row.id} value={row.id}>{row.name}</MenuItem>
+									))}
+								</Select>
+							</FormControl>
+							: null
+						}
+						{
+							showTwoSeletor?
+							<FormControl size="small" fullWidth>
+								<InputLabel >Seleccione la Capitulos </InputLabel>
+								<Select
+									disabled = { format == ''}
+									value={chapter}
+									label="Seleccione la Capitulo"
+									onChange={handleChangeChapter}
+								>
+									{
+										chapters.map((row: chapterI) => (
+											<MenuItem key={row.id} value={row.id}>{row.name}</MenuItem>
+									))}
+								</Select>
+							</FormControl>
+							: null
+						}
+					</Row>
+				</ContFilter>
+				{
+					showTableFilter ?
+					<ContResult>
+						<Row style={{gap:'10px'}}>
+							<FormControl size="small" fullWidth>
+								<InputLabel >Detalles nivel </InputLabel>
+								<Select
+									value={levelDetail}
+									label="Detalles nivel"
+									onChange={handleChangeLevelDetial}
+								>
+									{
+										levelDetails.map((row: chapterI) => (
+											<MenuItem key={row.id} value={row.id}>{row.name}</MenuItem>
+									))}
 								</Select>
 							</FormControl>
 							<FormControl size="small" fullWidth>
-									<InputLabel >Seleccione la nivel</InputLabel>
-									<Select
-										disabled = { year == ''}
-										value={level}
-										label="Seleccione la nivel"
-										onChange={handleChangeNivel}
-									>
-										{
-											levels.map((row: levelI) => (
-												<MenuItem key={row.id} value={row.id}>{row.nombre}</MenuItem>
-										))}
-									</Select>
-								</FormControl>
-							<FormControl size="small" fullWidth>
-								<InputLabel >Seleccione la directorio</InputLabel>
+								<InputLabel >Nivel</InputLabel>
 								<Select
-									disabled = { level == ''}
-									value={directory}
-									label="Seleccione la directorio"
-									onChange={handleChangeDirectories}
+									value={category}
+									label="Nivel"
+									onChange={handleChangeCategory}
 								>
 									{
-										directories.map((row: directoryI) => (
+										categories.map((row: chapterI) => (
+											<MenuItem key={row.id} value={row.id}>{row.name}</MenuItem>
+									))}
+								</Select>
+							</FormControl>
+							<FormControl size="small" fullWidth >
+								<InputLabel >Sub niveles </InputLabel>
+								<Select
+									value={subCategory}
+									label="Sub niveles"
+									onChange={handleChangeSubCategory}
+								>
+									{
+										subCategories.map((row: chapterI) => (
 											<MenuItem key={row.id} value={row.id}>{row.name}</MenuItem>
 									))}
 								</Select>
 							</FormControl>
 						</Row>
-						<Row style={{gap:'10px'}}>
-							{
-								showSelectSubDirection?
-								<FormControl size="small" fullWidth>
-									<InputLabel >Seleccione la sub directorio</InputLabel>
-									<Select
-										disabled = { directory == ''}
-										value={subDirectory}
-										label="Seleccione la sub directorio"
-										onChange={handleChangeSubDirectories}
-									>
-										{
-											subDirectories.map((row: any) => (
-												<MenuItem key={row.id} value={row.id}>{row.name}</MenuItem>
-										))}
-									</Select>
-								</FormControl>
-								:null
-							}
-							{
-								showTwoSeletor?
-								<FormControl size="small" fullWidth>
-									<InputLabel >Seleccione la Formato </InputLabel>
-									<Select
-										disabled = { subDirectory == ''}
-										value={format}
-										label="Seleccione la Formato"
-										onChange={handleChangeFormat}
-									>
-										{
-											formats.map((row: any) => (
-												<MenuItem key={row.id} value={row.id}>{row.name}</MenuItem>
-										))}
-									</Select>
-								</FormControl>
-								: null
-							}
-							{
-								showTwoSeletor?
-								<FormControl size="small" fullWidth>
-									<InputLabel >Seleccione la Capitulos </InputLabel>
-									<Select
-										disabled = { format == ''}
-										value={chapter}
-										label="Seleccione la Capitulo"
-										onChange={handleChangeChapter}
-									>
-										{
-											chapters.map((row: chapterI) => (
-												<MenuItem key={row.id} value={row.id}>{row.name}</MenuItem>
-										))}
-									</Select>
-								</FormControl>
-								: null
-							}
-						</Row>
-					</ContFilter>
-					{
-						showTableFilter ?
-						<ContResult>
-							<Row style={{gap:'10px'}}>
-								<FormControl size="small" fullWidth>
-									<InputLabel >Detalles nivel </InputLabel>
-									<Select
-										value={levelDetail}
-										label="Detalles nivel"
-										onChange={handleChangeLevelDetial}
-									>
-										{
-											levelDetails.map((row: chapterI) => (
-												<MenuItem key={row.id} value={row.id}>{row.name}</MenuItem>
-										))}
-									</Select>
-								</FormControl>
-								<FormControl size="small" fullWidth>
-									<InputLabel >Nivel</InputLabel>
-									<Select
-										value={category}
-										label="Nivel"
-										onChange={handleChangeCategory}
-									>
-										{
-											categories.map((row: chapterI) => (
-												<MenuItem key={row.id} value={row.id}>{row.name}</MenuItem>
-										))}
-									</Select>
-								</FormControl>
-								<FormControl size="small" fullWidth >
-									<InputLabel >Sub niveles </InputLabel>
-									<Select
-										value={subCategory}
-										label="Sub niveles"
-										onChange={handleChangeSubCategory}
-									>
-										{
-											subCategories.map((row: chapterI) => (
-												<MenuItem key={row.id} value={row.id}>{row.name}</MenuItem>
-										))}
-									</Select>
-								</FormControl>
-							</Row>
-							<BasicTable/>
-							{/* <CollapsibleTable/> */}
-						</ContResult>
-						: <div></div>
-					}
-				</Column>
-			</Con>
+						<BasicTable/>
+						{/* <CollapsibleTable/> */}
+					</ContResult>
+					: <div></div>
+				}
+			</Column>
 		</Container>
 	)
 }
@@ -287,11 +286,8 @@ const Container = styled.div`
 	width: 100vw;
 	height: 100vh;
 	display: flex;
-	justify-content: center;
-`;
-
-const Con = styled.div`
-	width: 95%;
+	align-items: center;
+	flex-direction: column;
 `;
 
 const ContFilter = styled.div`
@@ -313,4 +309,5 @@ const ContResult = styled.div`
 	border-radius: 10px;
 	padding: 30px;
 	box-shadow: 0px 3px 6px #00000015;
+	animation:scale-up-center 0.4s; } @keyframes scale-up-center{ 0%{transform:scale(.5)} 100%{transform:scale(1)}
 `;

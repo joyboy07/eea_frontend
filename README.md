@@ -1,15 +1,17 @@
 # React + TypeScript + Vite
 
-## Run proyect
+## Instalación
 
 ```bash
 # Instalamos los paquetes node_moudles
 
-   npm install
+ $ npm install
 ```
 
+## Ejecutar la aplicación
+
 ```bash
-   npm run dev
+ $  npm run dev
 ```
 
 # Documentacion
@@ -29,6 +31,11 @@
 - React Icons https://react-icons.github.io/react-icons
 
 
+## Herramientas
+
+- Convierte svg a tsx https://svg2jsx.com/
+- Animaciones css https://xsgames.co/animatiss/
+
 ## Arquitectura del proyecto
 
 ```bash
@@ -37,8 +44,26 @@
 ```
 
 # Estructura de las carpetas
-- adapters
-- assers
+
+```bash
+  ├── node_modules/
+  ├── public/
+  │   ├── index.html
+  │   ├── favicon.ico
+  └── src/
+      └── app/
+      └── core/
+      │   ├── Header.js
+      │   ├── Footer.js
+      └── feature/
+          ├── home/
+      ├── General/
+      ├── App.js
+      ├── index.js
+  ├── package.json
+  ├── package-lock.json
+  ├── .gitignore
+```
 
 
 # CSS
