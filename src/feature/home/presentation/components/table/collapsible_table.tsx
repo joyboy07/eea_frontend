@@ -10,6 +10,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { VscChevronDown, VscChevronUp } from 'react-icons/vsc';
+import { primaryLg } from '../../../../../core/consts/colors';
 
 function createData(
 	name: string,
@@ -18,9 +19,6 @@ function createData(
 	carbs: string,
 	protein: string,
 	price: string,
-	y: string,
-	x: string,
-	z: string,
 ) {
 	return {
 		name,
@@ -29,9 +27,6 @@ function createData(
 		carbs,
 		protein,
 		price,
-		y,
-		x,
-		z,
 		history:
 		[
 			{
@@ -57,7 +52,6 @@ function Row(props: { row: ReturnType<typeof createData> }) {
 		<TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
 			<TableCell>
 			<IconButton
-				aria-label="expand row"
 				size="small"
 				onClick={() => setOpen(!open)}
 			>
@@ -71,15 +65,15 @@ function Row(props: { row: ReturnType<typeof createData> }) {
 			<TableCell align="right">{row.fat}</TableCell>
 			<TableCell align="right">{row.carbs}</TableCell>
 			<TableCell align="right">{row.protein}</TableCell>
-			<TableCell align="right">{row.x}</TableCell>
-			<TableCell align="right">{row.y}</TableCell>
-			<TableCell align="right">{row.z}</TableCell>
 		</TableRow>
 		<TableRow>
 			<TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
 			<Collapse in={open} timeout="auto" unmountOnExit>
 				<Box>
-
+					<div>Numero de meses Trabajados en el Año: lala</div>
+					<div>Actividad economica que desarrolla la empresa en el Año:lala </div>
+					<div>Principal producto que elabora y comercializa la empresa: lala </div>
+					<div>Codigo de actividad economica segun el clasificador de actividades CIIU Rev. 4: lala </div>
 				</Box>
 			</Collapse>
 			</TableCell>
@@ -89,28 +83,35 @@ function Row(props: { row: ReturnType<typeof createData> }) {
 	}
 
 	const rows = [
-	createData('20100227542', 'PROCESOS AGROINDUSTRIALES SA', '000', '001001', '0121'	, 'S112', 'AGROINDUSTRIA', 'NO', 'ga'),
-	createData('20100227542', 'PROCESOS AGROINDUSTRIALES SA', '000', '001001', '0121'	, 'S112', 'AGROINDUSTRIA', 'NO', 'ga' ),
-	createData('20100227542', 'PROCESOS AGROINDUSTRIALES SA', '000', '001001', '0121'	, 'S112', 'AGROINDUSTRIA', 'NO', 'ga' ),
-	createData('20100227542', 'PROCESOS AGROINDUSTRIALES SA', '000', '001001', '0121'	, 'S112', 'AGROINDUSTRIA', 'NO', 'ga' ),
-	createData('20100227542', 'PROCESOS AGROINDUSTRIALES SA', '000', '001001', '0121'	, 'S112', 'AGROINDUSTRIA', 'NO', 'ga' ),
+	createData('20100227542', 'PROCESOS AGROINDUSTRIALES SA', '000', '001001', '0121'	, 'S112'),
+	createData('20100227542', 'PROCESOS AGROINDUSTRIALES SA', '000', '001001', '0121'	, 'S112' ),
+	createData('20100227542', 'PROCESOS AGROINDUSTRIALES SA', '000', '001001', '0121'	, 'S112' ),
+	createData('20100227542', 'PROCESOS AGROINDUSTRIALES SA', '000', '001001', '0121'	, 'S112' ),
+	createData('20100227542', 'PROCESOS AGROINDUSTRIALES SA', '000', '001001', '0121'	, 'S112' ),
 	];
+
+	function createTitle(name: string) {
+		return { name };
+	}
+	
+		const titlesTable = [
+			createTitle(''),
+			createTitle('RUC'),
+			createTitle('Nro Estab'),
+			createTitle('Razon Social'),
+			createTitle('Nro de Establecimientos'),
+			createTitle('Ingresos netos Obtenidos en el Año'),
+		];
 
 	export default function CollapsibleTable() {
 	return (
 		<TableContainer component={Paper}>
 		<Table aria-label="collapsible table">
-			<TableHead>
+			<TableHead style={{backgroundColor: primaryLg}}>
 			<TableRow>
-				<TableCell />
-				<TableCell>Ruc</TableCell>
-				<TableCell align="right">RozSocial</TableCell>
-				<TableCell align="right">Nro establec</TableCell>
-				<TableCell align="right">Ae eretes</TableCell>
-				<TableCell align="right">CIIU_DNCN</TableCell>
-				<TableCell align="right">SI_DNCN</TableCell>
-				<TableCell align="right">Sector Economico</TableCell>
-				<TableCell align="right">clave</TableCell>
+				{titlesTable.map((row) => (
+					<TableCell style={{color:'#fff'}}>{row.name}</TableCell>
+				))}
 			</TableRow>
 			</TableHead>
 			<TableBody>

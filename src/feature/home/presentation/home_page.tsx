@@ -11,6 +11,7 @@ import { Column, Row } from '../../../core/style/general_style_components';
 import BasicTable from '../../../general/components/table/basic_table';
 import ResponsiveAppBar from '../../../app/component/app-bar/app_bar_resposive';
 import IconExcel from '../../../app/assets/icons/icon_excel';
+import CollapsibleTable from './components/table/collapsible_table';
 
 const HomePage = () => {
 
@@ -275,8 +276,8 @@ const HomePage = () => {
 								<IconExcel ></IconExcel>
 							</div>
 						</Row>
-						<BasicTable/>
-						{/* <CollapsibleTable/> */}
+						{/* <BasicTable/> */}
+						<CollapsibleTable/>
 					</ContResult>
 					: <div></div>
 				}
