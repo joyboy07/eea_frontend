@@ -10,6 +10,7 @@ import chapterI from '../interfaces/chapter_interface';
 import { Column, Row } from '../../../core/style/general_style_components';
 import BasicTable from '../../../general/components/table/basic_table';
 import ResponsiveAppBar from '../../../app/component/app-bar/app_bar_resposive';
+import IconExcel from '../../../app/assets/icons/icon_excel';
 
 const HomePage = () => {
 
@@ -124,7 +125,7 @@ const HomePage = () => {
 	return (
 		<Container>
 			<ResponsiveAppBar></ResponsiveAppBar>
-			<Column style={{gap:'20px', marginTop:'40px', width:'95%'}}>
+			<Column style={{gap:'20px', marginTop:'20px', width:'95%'}}>
 				<ContFilter>
 					<Row style={{gap:'10px'}}>
 						<FormControl size="small" fullWidth>
@@ -270,8 +271,12 @@ const HomePage = () => {
 									))}
 								</Select>
 							</FormControl>
+							<div style={{width:'100px', marginLeft:'10px', display:'flex', alignItems:'center' }} >
+								<IconExcel ></IconExcel>
+							</div>
 						</Row>
-						<BasicTable/>
+						
+						{/* <BasicTable/> */}
 						{/* <CollapsibleTable/> */}
 					</ContResult>
 					: <div></div>

@@ -1,17 +1,18 @@
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
-import LogoIneiWrite from '../../assets/logo/logo_v1_white';
 import LogoV2Write from '../../assets/logo/logo_v2_write';
+import {secondaryLg } from '../../../core/consts/colors';
 
 
 function ResponsiveAppBar() {
 
 	return (
-		<AppBar style={{backgroundColor:'#3b4e87'}} position="static">
+		<AppBar style={{backgroundColor: secondaryLg}} position="static">
 			<Container maxWidth="xl">
-				<Toolbar disableGutters>
-				<LogoV2Write width="100" height="50"  />
+				<Toolbar style={{gap:'30px'}} >
+					<LogoV2Write width="100" height="50"  />
+					<h2 style={{margin:'0'}}>Sistema de consultas de la EEA</h2>
 				</Toolbar>
 			</Container>
 		</AppBar>
