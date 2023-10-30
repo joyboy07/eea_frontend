@@ -8,7 +8,6 @@ import levelI from '../interfaces/level_interface';
 import directoryI from '../interfaces/directory_interface';
 import chapterI from '../interfaces/chapter_interface';
 import { Column, Row } from '../../../core/style/general_style_components';
-import BasicTable from '../../../general/components/table/basic_table';
 import ResponsiveAppBar from '../../../app/component/app-bar/app_bar_resposive';
 import IconExcel from '../../../app/assets/icons/icon_excel';
 import CollapsibleTable from './components/table/collapsible_table';
@@ -56,7 +55,7 @@ const HomePage = () => {
 	const handleChangeYear = (event: SelectChangeEvent) => {
 		setYear(event.target.value as string);
 	};
-	const handleChangeNivel = (event: SelectChangeEvent) => {
+	const handleChangeModule = (event: SelectChangeEvent) => {
 		setDirectory('')
 		dispatch(getDirectorySource(parseInt(event.target.value)))
 		setLevels(event.target.value as string);
@@ -65,7 +64,7 @@ const HomePage = () => {
 		setShowTwoSeletor(false)
 	};
 
-	const handleChangeDirectories = (event: SelectChangeEvent) => {
+	const handleChangeSubModule = (event: SelectChangeEvent) => {
 		setShowSelectSubDirection(false)
 		setShowTwoSeletor(false)
 		setSubDirectory('')
@@ -144,12 +143,12 @@ const HomePage = () => {
 							</Select>
 						</FormControl>
 						<FormControl size="small" fullWidth>
-								<InputLabel >Seleccione la nivel</InputLabel>
+								<InputLabel >Seleccione la modulo</InputLabel>
 								<Select
 									disabled = { year == ''}
 									value={level}
-									label="Seleccione la nivel"
-									onChange={handleChangeNivel}
+									label="Seleccione la modulo"
+									onChange={handleChangeModule}
 								>
 									{
 										levels.map((row: levelI) => (
@@ -158,16 +157,16 @@ const HomePage = () => {
 								</Select>
 							</FormControl>
 						<FormControl size="small" fullWidth>
-							<InputLabel >Seleccione la directorio</InputLabel>
+							<InputLabel >Seleccione el sub modulo</InputLabel>
 							<Select
 								disabled = { level == ''}
 								value={directory}
-								label="Seleccione la directorio"
-								onChange={handleChangeDirectories}
+								label="Seleccione el sub modulo"
+								onChange={handleChangeSubModule}
 							>
 								{
 									directories.map((row: directoryI) => (
-										<MenuItem key={row.id} value={row.id}>{row.name}</MenuItem>
+										<MenuItem key={row.id} value={row.id}>{row.nombre}</MenuItem>
 								))}
 							</Select>
 						</FormControl>

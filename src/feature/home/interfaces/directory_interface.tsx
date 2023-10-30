@@ -1,6 +1,7 @@
 interface directoryI {
+	id_module?: number,
 	id?: number,
-	name?: string,
+	nombre?: string,
 }
 
 export default directoryI

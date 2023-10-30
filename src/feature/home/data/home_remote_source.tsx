@@ -1,84 +1,37 @@
+import axios from "axios";
+import API from "../../../core/consts/const";
 import chapterI from "../interfaces/chapter_interface";
 import degreeI from "../interfaces/degree_interface";
 import directoryI from "../interfaces/directory_interface";
 import formtI from "../interfaces/format_interface";
-import levelI from "../interfaces/level_interface";
 import sectorI from "../interfaces/sector_interface";
-import yearI from "../interfaces/year_interface";
 import { getYears,getLevels, getDirectories, getSubDirectories, getFormats, getChapters, getlevelDetails, getCategories, getSubCategories } from "../presentation/slices/home_slice";
 
 export const getYearsSouce = () => async(dispatch:any) =>{
 	try {
-		let items: yearI[] = [
-			{
-				id:2019,
-			},
-			{
-				id:2020,
-			},
-		]
-		dispatch(getYears(items))
+		let res = await axios.get( API.URL+`year`)
+		dispatch(getYears(res.data))
 	} catch (error) {}
 }
 
 export const getLevelsSource = () => async(dispatch:any) =>{
 	try {
-		let items: levelI[] = [
-			{
-				id:1,
-				nombre:'Empresa',
-			},
-			{
-				id:2,
-				nombre:'Establecimiento',
-			},
-			{
-				id:3,
-				nombre:'Compatibilizacion',
-			},
-			{
-				id:4,
-				nombre:'Comunes 2018 -2017',
-			}
-		]
-		dispatch(getLevels(items))
+		let res = await axios.get( API.URL+`module`)
+		dispatch(getLevels(res.data))
 	} catch (error) {}
 }
 
 export const getDirectorySource = (idNivel: number ) => async(dispatch:any) =>{
 	try {
-		let items: directoryI[] = [
-			{
-				id:1,
-				name:'Sectores',
-			},
-			{
-				id:2,
-				name:'Sistemas Intermedios',
-			},
-			{
-				id:3,
-				name:'Directorios',
-			}
-		]
-
-		let newItems: directoryI[] = []
-		if(idNivel == 1){
-			newItems = items
-		}else if(idNivel == 2){
-			newItems = items
-		}else if(idNivel == 3){
-			newItems.push(items[1])
-		}else if(idNivel == 4){
-			newItems.push(items[2])
-		}
-		dispatch(getDirectories(newItems))
+		let res = await axios.get( API.URL+`module-nivel/${idNivel}`)
+		dispatch(getDirectories(res.data))
 	} catch (error) {}
 }
 
 export const getSubDirectoriesSource = (idDirectorio: number) => async(dispatch:any) =>{
 
 	try {
+		let res = await axios.get( API.URL+`sector-nivel/${1}`)
 		let sector: sectorI[] = [
 			{
 				id:1,
