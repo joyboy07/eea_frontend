@@ -2,7 +2,7 @@ import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent} from '@mu
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { getCategoriesSource, getChaptersSource, getDirectorySource, getFormatsSource, getLevelDetailSource, getModulesSource, getSubCategoriesSource, getSubDirectoriesSource, getYearsSouce } from '../data/home_remote_source';
+import { getCategoriesSource, getChaptersSource, getFormatsSource, getLevelDetailSource, getLevelsSource, getModulesSource, getSubCategoriesSource, getSubDirectoriesSource, getYearsSouce } from '../data/home_remote_source';
 import yearI from '../interfaces/year_interface';
 import levelI from '../interfaces/level_interface';
 import directoryI from '../interfaces/directory_interface';
@@ -17,7 +17,7 @@ const HomePage = () => {
 	const dispatch:any = useDispatch()
 	const [year, setYear] = useState('');
 	const [module, setModules] = useState('');
-	const [directory, setDirectory] = useState('');
+	const [level, setLevel] = useState('');
 	const [subDirectory, setSubDirectory] = useState('');
 	const [format, setFormat] = useState('');
 	const [chapter, setChapter] = useState('');
@@ -32,7 +32,7 @@ const HomePage = () => {
 
 	const {years} = useSelector((state: any) => state.home )
 	const {modules} = useSelector((state: any) => state.home )
-	const {directories} = useSelector((state: any) => state.home )
+	const {levels} = useSelector((state: any) => state.home )
 	const {subDirectories} = useSelector((state: any) => state.home )
 	const {formats} = useSelector((state: any) => state.home )
 	const {chapters} = useSelector((state: any) => state.home )
@@ -56,8 +56,8 @@ const HomePage = () => {
 		setYear(event.target.value as string);
 	};
 	const handleChangeModule = (event: SelectChangeEvent) => {
-		setDirectory('')
-		dispatch(getDirectorySource(parseInt(event.target.value)))
+		setLevel('')
+		dispatch(getLevelsSource(parseInt(event.target.value)))
 		setModules(event.target.value as string);
 		setShowSelectSubDirection(false)
 		setShowTwoSeletor(false)
@@ -70,14 +70,14 @@ const HomePage = () => {
 		setShowTableFilter(false)
 	};
 
-	const handleChangeSubModule = (event: SelectChangeEvent) => {
+	const handleChangeLevel = (event: SelectChangeEvent) => {
 		dispatch(getSubDirectoriesSource( parseInt(event.target.value)))
-		setDirectory(event.target.value as string);
+		setLevel(event.target.value as string);
 	};
 
 	const handleChangeSubDirectories = (event: SelectChangeEvent) => {
-		console.log(directory)
-		if(directory == '2' ){
+		console.log(level)
+		if(level == '2' ){
 			setShowTableFilter(true)
 			setSubDirectory(event.target.value as string);
 			return
@@ -115,7 +115,7 @@ const HomePage = () => {
 							<InputLabel >Seleccione el año</InputLabel>
 							<Select
 								value={year}
-								label="Seleccione la nivel"
+								label="Seleccione el año"
 								onChange={handleChangeYear}
 							>
 								{
@@ -140,15 +140,15 @@ const HomePage = () => {
 								</Select>
 							</FormControl>
 						<FormControl size="small" fullWidth>
-							<InputLabel >Seleccione el sub modulo</InputLabel>
+							<InputLabel >Seleccione el nivel</InputLabel>
 							<Select
 								disabled = { module == ''}
-								value={directory}
-								label="Seleccione el sub modulo"
-								onChange={handleChangeSubModule}
+								value={level}
+								label="Seleccione el nivel"
+								onChange={handleChangeLevel}
 							>
 								{
-									directories.map((row: directoryI) => (
+									levels.map((row: directoryI) => (
 										<MenuItem key={row.id} value={row.id}>{row.nombre}</MenuItem>
 								))}
 							</Select>
@@ -160,7 +160,7 @@ const HomePage = () => {
 							<FormControl size="small" fullWidth>
 								<InputLabel >Seleccione el {module == '1' ? 'sector' : 'Tipo empresaraial' } </InputLabel>
 								<Select
-									disabled = { directory == ''}
+									disabled = { level == ''}
 									value={subDirectory}
 									label="Seleccione la sub directorio"
 									onChange={handleChangeSubDirectories}

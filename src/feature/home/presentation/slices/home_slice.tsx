@@ -5,7 +5,8 @@ export const homeSlice = createSlice({
 	initialState:{
 		years:[],
 		modules:[],
-		directories:[],
+		levels:[],
+		sectores:[],
 		subDirectories:[],
 		formats:[],
 		chapters:[],
@@ -20,8 +21,11 @@ export const homeSlice = createSlice({
 		getModules:(state, action) => {
 			state.modules = action.payload
 		},
-		getDirectories:(state, action) => {
-			state.directories = action.payload
+		getlevels:(state, action) => {
+			state.levels = action.payload
+		},
+		getSectores:(state, action) => {
+			state.sectores = action.payload
 		},
 		getSubDirectories:(state, action) => {
 			state.subDirectories = action.payload
@@ -48,7 +52,8 @@ export const homeSlice = createSlice({
 export const {
 	getYears,
 	getModules,
-	getDirectories,
+	getlevels,
+	getSectores,
 	getSubDirectories,
 	getFormats,
 	getChapters,
