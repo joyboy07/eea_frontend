@@ -5,7 +5,7 @@ import degreeI from "../interfaces/degree_interface";
 import directoryI from "../interfaces/directory_interface";
 import formtI from "../interfaces/format_interface";
 import sectorI from "../interfaces/sector_interface";
-import { getYears,getLevels, getDirectories, getSubDirectories, getFormats, getChapters, getlevelDetails, getCategories, getSubCategories } from "../presentation/slices/home_slice";
+import { getYears, getDirectories, getSubDirectories, getFormats, getChapters, getlevelDetails, getCategories, getSubCategories, getModules } from "../presentation/slices/home_slice";
 
 export const getYearsSouce = () => async(dispatch:any) =>{
 	try {
@@ -14,10 +14,10 @@ export const getYearsSouce = () => async(dispatch:any) =>{
 	} catch (error) {}
 }
 
-export const getLevelsSource = () => async(dispatch:any) =>{
+export const getModulesSource = () => async(dispatch:any) =>{
 	try {
 		let res = await axios.get( API.URL+`module`)
-		dispatch(getLevels(res.data))
+		dispatch(getModules(res.data))
 	} catch (error) {}
 }
 
@@ -28,7 +28,7 @@ export const getDirectorySource = (idNivel: number ) => async(dispatch:any) =>{
 	} catch (error) {}
 }
 
-export const getSubDirectoriesSource = (idDirectorio: number) => async(dispatch:any) =>{
+export const getSubDirectoriesSource = (idDirectorio: number, ) => async(dispatch:any) =>{
 
 	try {
 		let res = await axios.get( API.URL+`sector-nivel/${1}`)

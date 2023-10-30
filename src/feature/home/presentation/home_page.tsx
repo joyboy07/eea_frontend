@@ -2,7 +2,7 @@ import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent} from '@mu
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { getCategoriesSource, getChaptersSource, getDirectorySource, getFormatsSource, getLevelDetailSource, getLevelsSource, getSubCategoriesSource, getSubDirectoriesSource, getYearsSouce } from '../data/home_remote_source';
+import { getCategoriesSource, getChaptersSource, getDirectorySource, getFormatsSource, getLevelDetailSource, getModulesSource, getSubCategoriesSource, getSubDirectoriesSource, getYearsSouce } from '../data/home_remote_source';
 import yearI from '../interfaces/year_interface';
 import levelI from '../interfaces/level_interface';
 import directoryI from '../interfaces/directory_interface';
@@ -16,7 +16,7 @@ const HomePage = () => {
 
 	const dispatch:any = useDispatch()
 	const [year, setYear] = useState('');
-	const [level, setLevels] = useState('');
+	const [module, setModules] = useState('');
 	const [directory, setDirectory] = useState('');
 	const [subDirectory, setSubDirectory] = useState('');
 	const [format, setFormat] = useState('');
@@ -31,7 +31,7 @@ const HomePage = () => {
 	const [showTwoSeletor, setShowTwoSeletor] = useState(false);
 
 	const {years} = useSelector((state: any) => state.home )
-	const {levels} = useSelector((state: any) => state.home )
+	const {modules} = useSelector((state: any) => state.home )
 	const {directories} = useSelector((state: any) => state.home )
 	const {subDirectories} = useSelector((state: any) => state.home )
 	const {formats} = useSelector((state: any) => state.home )
@@ -44,7 +44,7 @@ const HomePage = () => {
 	useEffect(() => {
 		dispatch(getYearsSouce())
 		setYear('2019')
-		dispatch(getLevelsSource())
+		dispatch(getModulesSource())
 		dispatch(getFormatsSource())
 		dispatch(getChaptersSource())
 		dispatch(getLevelDetailSource())
@@ -58,37 +58,20 @@ const HomePage = () => {
 	const handleChangeModule = (event: SelectChangeEvent) => {
 		setDirectory('')
 		dispatch(getDirectorySource(parseInt(event.target.value)))
-		setLevels(event.target.value as string);
-		setShowTableFilter(false)
+		setModules(event.target.value as string);
 		setShowSelectSubDirection(false)
 		setShowTwoSeletor(false)
+		if(event.target.value == '1' ){
+			setShowSelectSubDirection(true)
+			setShowTwoSeletor(true)
+		}else if(event.target.value == '2' ){
+			setShowSelectSubDirection(true)
+		}
+		setShowTableFilter(false)
 	};
 
 	const handleChangeSubModule = (event: SelectChangeEvent) => {
-		setShowSelectSubDirection(false)
-		setShowTwoSeletor(false)
-		setSubDirectory('')
-
-		if(
-			(level == '1' && event.target.value == '3')||
-			(level == '2' && event.target.value == '3') ||
-			(level == '4' || level == '3' || level == '2' && event.target.value == '2')
-		){
-			setDirectory(event.target.value as string);
-			setShowTableFilter(true)
-			//! Cargar la data de la tabla con los que se a realizado la seleccion
-			console.log('Entre')
-			return
-		}
-		setShowTableFilter(false)
-		setShowSelectSubDirection(true)
-
-		if(event.target.value == '1'){
-			setShowTwoSeletor(true)
-		}else {
-			setShowTwoSeletor(false)
-		}
-		dispatch(getSubDirectoriesSource(parseInt(event.target.value)))
+		dispatch(getSubDirectoriesSource( parseInt(event.target.value)))
 		setDirectory(event.target.value as string);
 	};
 
@@ -146,12 +129,12 @@ const HomePage = () => {
 								<InputLabel >Seleccione la modulo</InputLabel>
 								<Select
 									disabled = { year == ''}
-									value={level}
+									value={module}
 									label="Seleccione la modulo"
 									onChange={handleChangeModule}
 								>
 									{
-										levels.map((row: levelI) => (
+										modules.map((row: levelI) => (
 											<MenuItem key={row.id} value={row.id}>{row.nombre}</MenuItem>
 									))}
 								</Select>
@@ -159,7 +142,7 @@ const HomePage = () => {
 						<FormControl size="small" fullWidth>
 							<InputLabel >Seleccione el sub modulo</InputLabel>
 							<Select
-								disabled = { level == ''}
+								disabled = { module == ''}
 								value={directory}
 								label="Seleccione el sub modulo"
 								onChange={handleChangeSubModule}
@@ -175,7 +158,7 @@ const HomePage = () => {
 						{
 							showSelectSubDirection?
 							<FormControl size="small" fullWidth>
-								<InputLabel >Seleccione la sub directorio</InputLabel>
+								<InputLabel >Seleccione el {module == '1' ? 'sector' : 'Tipo empresaraial' } </InputLabel>
 								<Select
 									disabled = { directory == ''}
 									value={subDirectory}
@@ -276,7 +259,7 @@ const HomePage = () => {
 							</div>
 						</Row>
 						{/* <BasicTable/> */}
-						<CollapsibleTable/>
+						{/* <CollapsibleTable/> */}
 					</ContResult>
 					: <div></div>
 				}
