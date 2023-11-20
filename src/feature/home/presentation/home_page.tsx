@@ -2,7 +2,7 @@ import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent} from '@mu
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { getCategoriesSource, getChaptersSource, getFormatsSource, getLevelDetailSource, getLevelsSource, getModulesSource, getSubCategoriesSource, getSubDirectoriesSource, getYearsSouce } from '../data/home_remote_source';
+import { getCategoriesSource, getChaptersSource, getFormatsSource, getLevelDetailSource, getLevelsSource, getModulesSource, getSectoresSource, getSubCategoriesSource, getYearsSouce } from '../data/home_remote_source';
 import yearI from '../interfaces/year_interface';
 import levelI from '../interfaces/level_interface';
 import directoryI from '../interfaces/directory_interface';
@@ -18,7 +18,8 @@ const HomePage = () => {
 	const [year, setYear] = useState('');
 	const [module, setModules] = useState('');
 	const [level, setLevel] = useState('');
-	const [subDirectory, setSubDirectory] = useState('');
+	const [sector, setSector] = useState('');
+	const [clasification, setClasification] = useState('');
 	const [format, setFormat] = useState('');
 	const [chapter, setChapter] = useState('');
 
@@ -27,13 +28,17 @@ const HomePage = () => {
 	const [subCategory, setSubCategory] = useState('');
 
 	const [showTableFilter, setShowTableFilter] = useState(false);
-	const [showSelectSubDirection, setShowSelectSubDirection] = useState(false);
-	const [showTwoSeletor, setShowTwoSeletor] = useState(false);
+	const [showSector, setShowSector] = useState(false);
+	const [showClasification, setShowClasification] = useState(false);
+	const [showFormato, setShowFormato] = useState(false);
+	const [showChapter, setShowChapter] = useState(false);
+
 
 	const {years} = useSelector((state: any) => state.home )
 	const {modules} = useSelector((state: any) => state.home )
 	const {levels} = useSelector((state: any) => state.home )
-	const {subDirectories} = useSelector((state: any) => state.home )
+	const {sectores} = useSelector((state: any) => state.home )
+	const {clasifications} = useSelector((state: any) => state.home )
 	const {formats} = useSelector((state: any) => state.home )
 	const {chapters} = useSelector((state: any) => state.home )
 
@@ -45,8 +50,8 @@ const HomePage = () => {
 		dispatch(getYearsSouce())
 		setYear('2019')
 		dispatch(getModulesSource())
-		dispatch(getFormatsSource())
-		dispatch(getChaptersSource())
+
+		
 		dispatch(getLevelDetailSource())
 		dispatch(getCategoriesSource())
 		dispatch(getSubCategoriesSource())
@@ -59,32 +64,36 @@ const HomePage = () => {
 		setLevel('')
 		dispatch(getLevelsSource(parseInt(event.target.value)))
 		setModules(event.target.value as string);
-		setShowSelectSubDirection(false)
-		setShowTwoSeletor(false)
-		if(event.target.value == '1' ){
-			setShowSelectSubDirection(true)
-			setShowTwoSeletor(true)
-		}else if(event.target.value == '2' ){
-			setShowSelectSubDirection(true)
-		}
+		setShowSector(false)
 		setShowTableFilter(false)
+		setShowClasification(false)
+		setShowFormato(false)
 	};
 
 	const handleChangeLevel = (event: SelectChangeEvent) => {
-		dispatch(getSubDirectoriesSource( parseInt(event.target.value)))
+		if(module == '1'){
+			setShowSector(true)
+		}else if(module == '2' && event.target.value == '1'){
+			setShowClasification(true)
+		}
+		dispatch(getSectoresSource( parseInt(event.target.value)))
 		setLevel(event.target.value as string);
 	};
 
-	const handleChangeSubDirectories = (event: SelectChangeEvent) => {
-		console.log(level)
-		if(level == '2' ){
-			setShowTableFilter(true)
-			setSubDirectory(event.target.value as string);
-			return
-		}
-		setSubDirectory(event.target.value as string);
+	const handleChangeSector = (event: SelectChangeEvent) => {
+		setSector(event.target.value as string)
+		dispatch(getFormatsSource(parseInt(event.target.value)))
+		setShowFormato(true)
+
 	};
+
+	const handleChangeClasification = (event: SelectChangeEvent) => {
+		setClasification(event.target.value as string)
+	};
+
 	const handleChangeFormat = (event: SelectChangeEvent) => {
+		dispatch(getChaptersSource( parseInt(level),sector, event.target.value  ))
+		setShowChapter(true)
 		setFormat(event.target.value as string);
 	};
 
@@ -156,43 +165,60 @@ const HomePage = () => {
 					</Row>
 					<Row style={{gap:'10px'}}>
 						{
-							showSelectSubDirection?
+							showSector?
 							<FormControl size="small" fullWidth>
-								<InputLabel >Seleccione el {module == '1' ? 'sector' : 'Tipo empresaraial' } </InputLabel>
+								<InputLabel >Seleccione el sector </InputLabel>
 								<Select
 									disabled = { level == ''}
-									value={subDirectory}
+									value={sector}
 									label="Seleccione la sub directorio"
-									onChange={handleChangeSubDirectories}
+									onChange={handleChangeSector}
 								>
 									{
-										subDirectories.map((row: any) => (
-											<MenuItem key={row.id} value={row.id}>{row.name}</MenuItem>
+										sectores.map((row: any) => (
+											<MenuItem key={row.id} value={row.id}>{row.nombre}</MenuItem>
 									))}
 								</Select>
 							</FormControl>
 							:null
 						}
 						{
-							showTwoSeletor?
+							showClasification?
+							<FormControl size="small" fullWidth>
+								<InputLabel >Seleccione el clasificación </InputLabel>
+								<Select
+									disabled = { level == ''}
+									value={clasification}
+									label="Seleccione la sub directorio"
+									onChange={handleChangeClasification}
+								>
+									{
+										clasifications.map((row: any) => (
+											<MenuItem key={row.id} value={row.id}>{row.nombre}</MenuItem>
+									))}
+								</Select>
+							</FormControl>
+							:null
+						}
+						{
+							showFormato?
 							<FormControl size="small" fullWidth>
 								<InputLabel >Seleccione la Formato </InputLabel>
 								<Select
-									disabled = { subDirectory == ''}
 									value={format}
 									label="Seleccione la Formato"
 									onChange={handleChangeFormat}
 								>
 									{
 										formats.map((row: any) => (
-											<MenuItem key={row.id} value={row.id}>{row.name}</MenuItem>
+											<MenuItem key={row.id_formato} value={row.id_formato}>{row.id_formato}</MenuItem>
 									))}
 								</Select>
 							</FormControl>
 							: null
 						}
 						{
-							showTwoSeletor?
+							showChapter?
 							<FormControl size="small" fullWidth>
 								<InputLabel >Seleccione la Capitulos </InputLabel>
 								<Select
@@ -202,8 +228,8 @@ const HomePage = () => {
 									onChange={handleChangeChapter}
 								>
 									{
-										chapters.map((row: chapterI) => (
-											<MenuItem key={row.id} value={row.id}>{row.name}</MenuItem>
+										chapters.map((row: any) => (
+											<MenuItem key={row.CAPI_CODIGO} value={row.CAPI_CODIGO}>{row.CAPI_TITULO}</MenuItem>
 									))}
 								</Select>
 							</FormControl>

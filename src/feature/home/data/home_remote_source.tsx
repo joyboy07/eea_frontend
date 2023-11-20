@@ -2,10 +2,7 @@ import axios from "axios";
 import API from "../../../core/consts/const";
 import chapterI from "../interfaces/chapter_interface";
 import degreeI from "../interfaces/degree_interface";
-import directoryI from "../interfaces/directory_interface";
-import formtI from "../interfaces/format_interface";
-import sectorI from "../interfaces/sector_interface";
-import { getYears, getSubDirectories, getFormats, getChapters, getlevelDetails, getCategories, getSubCategories, getModules, getlevels } from "../presentation/slices/home_slice";
+import { getYears, getFormats, getChapters, getlevelDetails, getCategories, getSubCategories, getModules, getlevels, getSectores, getClasifications } from "../presentation/slices/home_slice";
 
 export const getYearsSouce = () => async(dispatch:any) =>{
 	try {
@@ -28,36 +25,16 @@ export const getLevelsSource = (idNivel: number ) => async(dispatch:any) =>{
 	} catch (error) {}
 }
 
-export const getSubDirectoriesSource = (idDirectorio: number, ) => async(dispatch:any) =>{
+export const getSectoresSource = (idNivel: number, ) => async(dispatch:any) =>{
+	try {
+		let res = await axios.get( API.URL+`sector-nivel/${idNivel}`)
+		dispatch(getSectores(res.data))
+	} catch (error) {}
+}
+
+export const getClasificationsSource = ( ) => async(dispatch:any) =>{
 
 	try {
-		let res = await axios.get( API.URL+`sector-nivel/${1}`)
-		let sector: sectorI[] = [
-			{
-				id:1,
-				name:'Agencias de viaje',
-			},
-			{
-				id:3,
-				name:'Educación privada',
-			},
-			{
-				id:4,
-				name:'Comercio',
-			},
-			{
-				id:5,
-				name:'Construcción',
-			},
-			{
-				id:7,
-				name:'Establecimientos de hospedaje',
-			},
-			{
-				id:8,
-				name:'Hidrocarburos',
-			},
-		]
 		let desgrees: degreeI[] = [
 			{
 				id:1,
@@ -72,64 +49,35 @@ export const getSubDirectoriesSource = (idDirectorio: number, ) => async(dispatc
 				name:'Multisectores',
 			}
 		]
-		let newItems: directoryI[] = []
-		if(idDirectorio == 1){
-			newItems = sector
-		}else if(idDirectorio == 2){
-			newItems = desgrees
-		}else if(idDirectorio == 3){
-			newItems = []
-		}
-		dispatch(getSubDirectories(newItems))
+		dispatch(getClasifications(desgrees))
 	} catch (error) {}
 }
 
 
-export const getFormatsSource = () => async(dispatch:any) =>{
+export const getFormatsSource = (idSector:number) => async(dispatch:any) =>{
 	try {
-		let items: formtI[] = [
-			{
-				id:1,
-				name:'A',
-			},
-			{
-				id:2,
-				name:'M',
-			},
-			{
-				id:3,
-				name:'F2',
-			},
-			{
-				id:4,
-				name:'D',
-			},
-		]
-		dispatch(getFormats(items))
+		let res = await axios.get( API.URL+`sector-formato/${idSector}`)
+		dispatch(getFormats(res.data))
 	} catch (error) {}
+
 }
 
-export const getChaptersSource = () => async(dispatch:any) =>{
+export const getChaptersSource = (idNivel:number , idSector:String, idFormato:string) => async(dispatch:any) =>{
+
+	let idSectorFormate
+	let cant = String(idSector).length
+	if( cant == 1 ){
+		idSectorFormate = '00'+idSector
+	}else if( cant == 2 ){
+		idSectorFormate = '0'+idSector
+	}else {
+		idSectorFormate = idSector
+	}
+
 	try {
-		let items: chapterI[] = [
-			{
-				id:1,
-				name:'Inicio',
-			},
-			{
-				id:2,
-				name:'Capitulo 1',
-			},
-			{
-				id:3,
-				name:'Capitulo 2',
-			},
-			{
-				id:4,
-				name:'Capitulo 3',
-			},
-		]
-		dispatch(getChapters(items))
+		let res = await axios.get( API.URL+`chapter?idNivel=${idNivel}&idSector=${idSectorFormate}&formato=${idFormato}`)
+		console.log(res.data)
+		dispatch(getChapters(res.data))
 	} catch (error) {}
 }
 
